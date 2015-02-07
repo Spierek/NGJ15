@@ -18,8 +18,106 @@ public class Audio : MonoBehaviour {
 	public AudioSource HumanHit2;
 	public AudioSource HumanHit3;
 	public AudioSource Tires;
+	public AudioSource Baby1;
+	public AudioSource Baby2;
+	public AudioSource BabyShort;
+	public AudioSource Breathe;
+	public AudioSource Breathe2;
+	public AudioSource HeavyBreathing;
+	public AudioSource CalmDown;
+	public AudioSource CalmDown2;
+	
+	public AudioSource Scream1;
+	public AudioSource Scream2;
+	public AudioSource Scream3;
+	public AudioSource Scream4;
+	public AudioSource Shutup1;
+	public AudioSource Shutup2;
+	public AudioSource Shutup3;
+	public AudioSource TakeItEasy;
 
-	void PlayBump()
+
+	void PlayWomanSayingShutup()
+	{
+		switch(Random.Range(1,3))
+		{
+		case 1:
+			Shutup1.Play();
+			break;
+		case 2: 
+			Shutup2.Play();
+			break;
+		case 3: 
+			Shutup3.Play();
+                break;
+        }
+    }
+
+    void PlayWomanFinalScream()
+    {
+        Scream4.Play ();
+    }
+    
+    void PlayWomanScreaming()
+    {
+        switch(Random.Range(1,3))
+        {
+		case 1:
+			Scream1.Play();
+			break;
+		case 2: 
+			Scream2.Play();
+                break;
+            case 3: 
+                Scream3.Play();
+                break;
+        }
+    }
+
+    void PlayManSayingCalmDown()
+	{
+		switch(Random.Range(1,3))
+		{
+		case 1:
+			CalmDown.Play();
+			break;
+		case 2: 
+			CalmDown2.Play();
+			break;
+		case 3: 
+			TakeItEasy.Play();
+			break;
+        }
+    }
+    
+    void PlayWomanBreathing()
+    {
+		HeavyBreathing.Play();
+	}
+	void PlayManSayingBreathe()
+	{
+		switch(Random.Range(1,2))
+		{
+		case 1:
+			Breathe.Play();
+			break;
+		case 2: 
+			Breathe2.Play();
+                break;
+        }
+    }
+
+    void PlayBabyLong()
+	{
+		Baby1.Play();
+    }
+	
+	void PlayBabyShort()
+	{
+		BabyShort.Play();
+    }
+    
+    void PlayBump()
 	{
 		Bump.Play();
 	}
@@ -36,9 +134,7 @@ public class Audio : MonoBehaviour {
 
 	void PlayHumanHit()
 	{
-		var i = Random.Range(0,2);
-
-		switch(i)
+		switch(Random.Range(1,3))
 		{
 		case 1:
 			HumanHit1.Play();
