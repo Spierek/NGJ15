@@ -1,35 +1,33 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using System.Collections;
 
 public class Background : MonoBehaviour {
 
     public float speed;
+    private float sectionLength = 30f;
 
-    private Transform[] childs;
+    public List<GameObject> roadPrefabs;
+    private List<GameObject> sections = new List<GameObject>();
 
-    void Awake()
-    {
-        childs = new Transform[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++ )
-        {
-            childs[i] = transform.GetChild(i);
-            childs[i].localPosition = new Vector3(0f, 10f * i, 0f);
+    void Awake() {
+        if (roadPrefabs.Count > 0) {
+            for (int i = 0; i < 4; i++) {
+                Debug.Log(Random.Range(0, roadPrefabs.Count));
+                sections.Add(Instantiate(roadPrefabs[Random.Range(0, roadPrefabs.Count)]) as GameObject);
+                sections[i].transform.localPosition = new Vector3(0f, 0f, sectionLength * i);
+                sections[i].transform.parent = transform;
+            }
+        }
+        else {
+            Debug.LogWarning("No road prefabs found!");
         }
     }
   
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-        for (int i = 0; i < childs.Length; i++)
-        {
-            childs[i].localPosition -= transform.up * speed * Time.deltaTime;
-            if (childs[i].localPosition.y <= -10f) childs[i].localPosition += new Vector3(0f, 10f * childs.Length, 0f);
+    void Update () {
+        foreach (GameObject s in sections) {
+            s.transform.localPosition -= transform.forward * speed * Time.deltaTime;
+            if (s.transform.localPosition.z <= -sectionLength) s.transform.localPosition += new Vector3(0f, 0f, sectionLength * sections.Count);
         }
-          
-	}
+    }
 }

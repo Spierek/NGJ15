@@ -28,12 +28,12 @@ public class CarScript : MonoBehaviour {
     private void Movement() {
         // get input and add force
         Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), 0);
-        rigidbody.AddForce(movementVector, ForceMode.Impulse);
+        rigidbody.AddForce(movementVector * 2, ForceMode.Impulse);
 
         // bounce off of walls (distance clamping)
         if ((transform.position.x < -distanceLimit && rigidbody.velocity.x < 0) || (transform.position.x > distanceLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -2 * rigidbody.velocity;
-            ShakeCamera(0.15f, 3f);
+            ShakeCamera(0.1f, 2f);
         }
     }
 
