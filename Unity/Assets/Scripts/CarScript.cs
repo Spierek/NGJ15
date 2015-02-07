@@ -5,7 +5,6 @@ public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
     public Animator         ladyAnimator;
-    public Text             distanceCounter;
 
     public float distance = 600f;
     public float timeLimit = 90f;
@@ -21,7 +20,6 @@ public class CarScript : MonoBehaviour {
 
     private float stress;
     private float maxStress = 100f;
-    public Slider stressBar;
 
     private float shakePower;
     private float shakeDuration;
@@ -85,7 +83,6 @@ public class CarScript : MonoBehaviour {
     private void CameraShaking() {
         if (shakeDuration > 0) {
             cameraBox.localPosition = Random.insideUnitCircle.normalized * shakeDuration * shakePower;
-
             shakeDuration -= Time.deltaTime;
         }
         else {
@@ -95,9 +92,7 @@ public class CarScript : MonoBehaviour {
 
     private void TakeDamage(float damage) {
         stress += damage;
-
-        // update health bar
-        stressBar.value = stress;
+        UIManager.Instance.SetStress(stress);
 
         // game over
         if (stress >= maxStress) {
@@ -113,8 +108,7 @@ public class CarScript : MonoBehaviour {
 
     private void UpdateDistance() {
         timeLeft -= Time.deltaTime;
-
-        distanceCounter.text = Mathf.Round(timeLeft / timeLimit * distance) + "m";
+        UIManager.Instance.SetDistance(timeLeft / timeLimit * distance);
 
         if (timeLeft <= 0) {
             timeLeft = 0;
