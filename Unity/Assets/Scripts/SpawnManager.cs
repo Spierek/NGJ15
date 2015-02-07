@@ -5,7 +5,10 @@ public class SpawnManager : MonoBehaviour {
 
     public static SpawnManager instance;
 
-    public GameObject[] obstacles;
+    public Obstacle[] obstacles;
+
+    [Range(0,100)]
+    public int[] spawnRate;
 
     void Awake()
     {
@@ -14,11 +17,9 @@ public class SpawnManager : MonoBehaviour {
 
     public static void SpawnObstacle(Transform t)
     {
-        string ObjectName = "Spawner" + UnityEngine.Random.Range(1, 3).ToString();
-        Debug.Log(ObjectName);
-        Transform childT = t.FindChild(ObjectName);
-        GameObject obs = Instantiate(instance.obstacles[Random.Range(0, instance.obstacles.Length)], childT.position, Quaternion.identity) as GameObject;
-        obs.transform.parent = t;
+        Obstacle obs = Instantiate(instance.obstacles[Random.Range(0, instance.obstacles.Length)]) as Obstacle;
+        obs.gameObject.transform.parent = t;
+        obs.SpawnMe(t);
     }
 
     // Use this for initialization
