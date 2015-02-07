@@ -3,10 +3,10 @@
 public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
-    
-    public float distanceLimit = 5f;
-    public float wheelRotationSpeed = 7f;
-    public float wheelRotationLimit = 60f;
+
+    public float distanceLimit = 9f;
+    public float wheelRotationSpeed = 9f;
+    public float wheelRotationLimit = 65f;
 
     private float shakePower;
     private float shakeDuration;
@@ -40,7 +40,7 @@ public class CarScript : MonoBehaviour {
         // bounce off of walls (distance clamping)
         if ((transform.position.x < -distanceLimit && rigidbody.velocity.x < 0) || (transform.position.x > distanceLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -1.5f * rigidbody.velocity;
-            ShakeCamera(0.1f, 2f);
+            ShakeCamera(0.1f, 3f);
         }
     }
 
