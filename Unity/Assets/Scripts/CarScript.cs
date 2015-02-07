@@ -4,10 +4,15 @@ using UnityEngine.UI;
 public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
+    public Animator         ladyAnimator;
 
     public float distanceLimit = 9f;
     public float wheelRotationSpeed = 9f;
     public float wheelRotationLimit = 65f;
+
+    public float carStress = 10f;
+    public float pedestrianStress = 5f;
+    public float wallStress = 2f;
 
     private float shakePower;
     private float shakeDuration;
@@ -36,7 +41,7 @@ public class CarScript : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider col) {
-        TakeDamage(10f);
+        TakeDamage(carStress);
         ShakeCamera(0.3f, 5f);
     }
     #endregion
@@ -50,6 +55,7 @@ public class CarScript : MonoBehaviour {
         // bounce off of walls (distance clamping)
         if ((transform.position.x < -distanceLimit && rigidbody.velocity.x < 0) || (transform.position.x > distanceLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -1.5f * rigidbody.velocity;
+            TakeDamage(wallStress);
             ShakeCamera(0.1f, 3f);
         }
     }
@@ -81,9 +87,15 @@ public class CarScript : MonoBehaviour {
         // update health bar
         stressBar.value = stress;
 
+        // game over
         if (stress >= maxStress) {
             stress = 100;
             MainDebug.WriteLine("GAME OVER", 5f);
+        }
+
+        // animation switch
+        if (stress > maxStress / 2) {
+            ladyAnimator.SetTrigger("HighStress");
         }
     }
 
