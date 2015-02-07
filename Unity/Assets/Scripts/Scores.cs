@@ -20,6 +20,8 @@ public class Scores : MonoBehaviour {
 
 	
 	private static readonly int MAX_STRESS = 100;
+	private static readonly int MAX_SCORE = 100;
+	private static readonly int MIN_SCORE = 0;
 	private int stress;
 	public RectTransform stressTransform;
 	public RectTransform stressTransformBackground;
@@ -62,10 +64,15 @@ public class Scores : MonoBehaviour {
 	static void AddPoints(int points)
 	{
 		Instance.score += points;
+		if(Instance.score > MAX_SCORE)
+			Instance.score = MAX_SCORE;
+		if(Instance.score < MIN_SCORE)
+			Instance.score = MIN_SCORE;
+
 		Instance.textObj.text = Instance.score.ToString();
 
-		Instance.particleEmmiter.transform.position = Camera.main.ScreenToWorldPoint(Instance.textObj.rectTransform.anchoredPosition);
-		Instance.particleEmmiter.Emit();
+//		Instance.particleEmmiter.transform.position = Camera.main.ScreenToWorldPoint(Instance.textObj.rectTransform.anchoredPosition);
+//		Instance.particleEmmiter.Emit();
 	}
 
 
