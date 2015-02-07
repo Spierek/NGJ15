@@ -3,10 +3,10 @@
 public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
-    
-    public float distanceLimit = 5f;
-    public float wheelRotationSpeed = 7f;
-    public float wheelRotationLimit = 60f;
+
+    public float distanceLimit = 9f;
+    public float wheelRotationSpeed = 9f;
+    public float wheelRotationLimit = 65f;
 
     private float shakePower;
     private float shakeDuration;
