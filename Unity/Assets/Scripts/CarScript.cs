@@ -73,10 +73,8 @@ public class CarScript : MonoBehaviour {
             wheel.localRotation = Quaternion.Euler(0, 0, ClampAngle(wheel.localEulerAngles.z * 0.95f, -wheelRotationLimit, wheelRotationLimit));
         }
         else if (wheel.localEulerAngles.z < 360 && wheel.localEulerAngles.z > 190) {
-            wheel.localRotation = Quaternion.Euler(0, 0, ClampAngle(wheel.localEulerAngles.z * 1.01f, -wheelRotationLimit, wheelRotationLimit));
+            wheel.localRotation = Quaternion.Euler(0, 0, ClampAngle(wheel.localEulerAngles.z + (360 - wheel.localEulerAngles.z) / 30, -wheelRotationLimit, wheelRotationLimit));
         }
-
-        MainDebug.WriteLine(wheel.localEulerAngles.z.ToString());
     }
 
     public void ShakeCamera(float duration, float power) {
