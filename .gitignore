@@ -17,3 +17,7 @@
 sysinfo.txt
 Unity/UnityVS.Unity.CSharp.Plugins.csproj
 Unity/UnityVS.Unity.CSharp.csproj
+Unity/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll
+Unity/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Messaging.dll
+Unity/Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll
+Unity/UnityVS.Unity.v12.suo
