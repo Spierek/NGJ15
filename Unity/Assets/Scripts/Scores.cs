@@ -27,7 +27,7 @@ public class Scores : MonoBehaviour {
 	public void Update()
 	{
 		//Debug.Log();
-		if(Time.frameCount % 30 == 0 )
+		if(Time.frameCount % 90 == 0 )
 		{
 			AddPoints(1);
 			AddStress(1);
@@ -64,8 +64,8 @@ public class Scores : MonoBehaviour {
 		Instance.score += points;
 		Instance.textObj.text = Instance.score.ToString();
 
-		//Instance.particleEmmiter.gameObject.transform.position = Camera.main.ScreenToViewportPoint(Instance.textObj.rectTransform.position);
-		//Instance.particleEmmiter.Emit();
+		Instance.particleEmmiter.transform.position = Camera.main.ScreenToWorldPoint(Instance.textObj.rectTransform.anchoredPosition);
+		Instance.particleEmmiter.Emit();
 	}
 
 
