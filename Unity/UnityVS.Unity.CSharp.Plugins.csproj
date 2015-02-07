@@ -69,6 +69,13 @@
     <Compile Include="Assets\Standard Assets\Image Effects (Pro Only)\VortexEffect.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Animations\t.txt" />
+    <None Include="Assets\Audio\t.txt" />
+    <None Include="Assets\Materials\t.txt" />
+    <None Include="Assets\Resources\t.txt" />
+    <None Include="Assets\Scenes\t.txt" />
+    <None Include="Assets\Scripts\t.txt" />
+    <None Include="Assets\Sprites\t.txt" />
     <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\DLAA.shader" />
     <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\FXAA2.shader" />
     <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\FXAA3Console.shader" />
