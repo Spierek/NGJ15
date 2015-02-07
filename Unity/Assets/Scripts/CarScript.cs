@@ -5,21 +5,26 @@ public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
     public Animator         ladyAnimator;
+    public Text             distanceCounter;
 
-    public float distanceLimit = 9f;
+    public float distance = 600f;
+    public float timeLimit = 90f;
+    private float timeLeft;
+
+    public float horizontalLimit = 9f;
     public float wheelRotationSpeed = 9f;
     public float wheelRotationLimit = 65f;
 
-    public float carStress = 10f;
-    public float pedestrianStress = 5f;
-    public float wallStress = 2f;
-
-    private float shakePower;
-    private float shakeDuration;
+    [Range(0, 10)] public float carStress = 10f;
+    [Range(0, 10)] public float pedestrianStress = 5f;
+    [Range(0, 10)] public float wallStress = 2f;
 
     private float stress;
     private float maxStress = 100f;
     public Slider stressBar;
+
+    private float shakePower;
+    private float shakeDuration;
 
     private new Rigidbody   rigidbody;
     private Transform       cameraBox;
@@ -29,11 +34,13 @@ public class CarScript : MonoBehaviour {
     void Awake () {
         rigidbody = GetComponent<Rigidbody>();
         cameraBox = transform.Find("Camera Box");
+        timeLeft = timeLimit;
     }
 
     void Update () {
         RotateWheel();
         CameraShaking();
+        UpdateDistance();
     }
 
     void FixedUpdate() {
@@ -53,7 +60,7 @@ public class CarScript : MonoBehaviour {
         rigidbody.AddForce(movementVector * 1, ForceMode.Impulse);
 
         // bounce off of walls (distance clamping)
-        if ((transform.position.x < -distanceLimit && rigidbody.velocity.x < 0) || (transform.position.x > distanceLimit && rigidbody.velocity.x > 0)) {
+        if ((transform.position.x < -horizontalLimit && rigidbody.velocity.x < 0) || (transform.position.x > horizontalLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -1.5f * rigidbody.velocity;
             TakeDamage(wallStress);
             ShakeCamera(0.1f, 3f);
@@ -103,6 +110,17 @@ public class CarScript : MonoBehaviour {
         // animation switch
         if (stress > maxStress / 2) {
             ladyAnimator.SetTrigger("HighStress");
+        }
+    }
+
+    private void UpdateDistance() {
+        timeLeft -= Time.deltaTime;
+
+        distanceCounter.text = Mathf.Round(timeLeft / timeLimit * distance) + "m";
+
+        if (timeLeft <= 0) {
+            timeLeft = 0;
+            MainDebug.WriteLine("YOU WIN");
         }
     }
 
