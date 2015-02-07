@@ -1,12 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
+    public Animator         ladyAnimator;
 
-    public float distanceLimit = 9f;
+    public float distance = 600f;
+    public float timeLimit = 90f;
+    private float timeLeft;
+
+    public float horizontalLimit = 9f;
     public float wheelRotationSpeed = 9f;
     public float wheelRotationLimit = 65f;
+
+    [Range(0, 10)] public float carStress = 10f;
+    [Range(0, 10)] public float pedestrianStress = 5f;
+    [Range(0, 10)] public float wallStress = 2f;
+
+    private float stress;
+    private float maxStress = 100f;
 
     private float shakePower;
     private float shakeDuration;
@@ -19,15 +32,22 @@ public class CarScript : MonoBehaviour {
     void Awake () {
         rigidbody = GetComponent<Rigidbody>();
         cameraBox = transform.Find("Camera Box");
+        timeLeft = timeLimit;
     }
 
     void Update () {
         RotateWheel();
         CameraShaking();
+        UpdateDistance();
     }
 
     void FixedUpdate() {
         Movement();
+    }
+
+    private void OnTriggerEnter(Collider col) {
+        TakeDamage(carStress);
+        ShakeCamera(0.3f, 5f);
     }
     #endregion
 
@@ -38,15 +58,21 @@ public class CarScript : MonoBehaviour {
         rigidbody.AddForce(movementVector * 1, ForceMode.Impulse);
 
         // bounce off of walls (distance clamping)
-        if ((transform.position.x < -distanceLimit && rigidbody.velocity.x < 0) || (transform.position.x > distanceLimit && rigidbody.velocity.x > 0)) {
+        if ((transform.position.x < -horizontalLimit && rigidbody.velocity.x < 0) || (transform.position.x > horizontalLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -1.5f * rigidbody.velocity;
+            TakeDamage(wallStress);
             ShakeCamera(0.1f, 3f);
         }
     }
 
     private void RotateWheel() {
         wheel.Rotate(0, 0, -Input.GetAxis("Horizontal") * wheelRotationSpeed);
-        wheel.localRotation = Quaternion.Euler(0, 0, ClampAngle(wheel.localEulerAngles.z, -wheelRotationLimit, wheelRotationLimit));
+        if (wheel.localEulerAngles.z > 0 && wheel.localEulerAngles.z < 90) {
+            wheel.localRotation = Quaternion.Euler(0, 0, ClampAngle(wheel.localEulerAngles.z * 0.95f, -wheelRotationLimit, wheelRotationLimit));
+        }
+        else if (wheel.localEulerAngles.z < 360 && wheel.localEulerAngles.z > 190) {
+            wheel.localRotation = Quaternion.Euler(0, 0, ClampAngle(wheel.localEulerAngles.z + (360 - wheel.localEulerAngles.z) / 30, -wheelRotationLimit, wheelRotationLimit));
+        }
     }
 
     public void ShakeCamera(float duration, float power) {
@@ -57,11 +83,36 @@ public class CarScript : MonoBehaviour {
     private void CameraShaking() {
         if (shakeDuration > 0) {
             cameraBox.localPosition = Random.insideUnitCircle.normalized * shakeDuration * shakePower;
-
             shakeDuration -= Time.deltaTime;
         }
         else {
             cameraBox.localPosition = Vector3.zero;
+        }
+    }
+
+    private void TakeDamage(float damage) {
+        stress += damage;
+        UIManager.Instance.SetStress(stress);
+
+        // game over
+        if (stress >= maxStress) {
+            stress = 100;
+            MainDebug.WriteLine("GAME OVER", 5f);
+        }
+
+        // animation switch
+        if (stress > maxStress / 2) {
+            ladyAnimator.SetTrigger("HighStress");
+        }
+    }
+
+    private void UpdateDistance() {
+        timeLeft -= Time.deltaTime;
+        UIManager.Instance.SetDistance(timeLeft / timeLimit * distance);
+
+        if (timeLeft <= 0) {
+            timeLeft = 0;
+            MainDebug.WriteLine("YOU WIN");
         }
     }
 
