@@ -27,7 +27,14 @@ public class Background : MonoBehaviour {
     void Update () {
         foreach (GameObject s in sections) {
             s.transform.localPosition -= transform.forward * speed * Time.deltaTime;
-            if (s.transform.localPosition.z <= -sectionLength) s.transform.localPosition += new Vector3(0f, 0f, sectionLength * sections.Count);
+            if (s.transform.localPosition.z <= -sectionLength)
+            {
+                s.transform.localPosition += new Vector3(0f, 0f, sectionLength * sections.Count);
+                if(UnityEngine.Random.Range(0,100)>=30)
+                {
+                    SpawnManager.SpawnObstacle(s.transform);
+                }
+            }
         }
     }
 }
