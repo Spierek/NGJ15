@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CarScript : MonoBehaviour {
     #region Variables
@@ -10,6 +11,10 @@ public class CarScript : MonoBehaviour {
 
     private float shakePower;
     private float shakeDuration;
+
+    private float stress;
+    private float maxStress = 100f;
+    public Slider stressBar;
 
     private new Rigidbody   rigidbody;
     private Transform       cameraBox;
@@ -28,6 +33,11 @@ public class CarScript : MonoBehaviour {
 
     void FixedUpdate() {
         Movement();
+    }
+
+    private void OnTriggerEnter(Collider col) {
+        TakeDamage(10f);
+        ShakeCamera(0.3f, 5f);
     }
     #endregion
 
@@ -62,6 +72,18 @@ public class CarScript : MonoBehaviour {
         }
         else {
             cameraBox.localPosition = Vector3.zero;
+        }
+    }
+
+    private void TakeDamage(float damage) {
+        stress += damage;
+
+        // update health bar
+        stressBar.value = stress;
+
+        if (stress >= maxStress) {
+            stress = 100;
+            MainDebug.WriteLine("GAME OVER", 5f);
         }
     }
 
