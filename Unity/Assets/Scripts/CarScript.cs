@@ -4,8 +4,7 @@ public class CarScript : MonoBehaviour {
     #region Variables
     private new Rigidbody rigidbody;
     
-    private float speedMod = 1f;
-    private float speedLimit = 5f;
+    public float distanceLimit = 5f;
     #endregion
 
     #region Monobehaviour Methods
@@ -21,12 +20,12 @@ public class CarScript : MonoBehaviour {
     #region Methods
     private void Movement() {
         // get input and add force
-        Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal") * speedMod, 0);
+        Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), 0);
         rigidbody.AddForce(movementVector, ForceMode.Impulse);
 
-        // clamp horizontal speed
-        if (rigidbody.velocity.x < -speedLimit || rigidbody.velocity.x > speedLimit) {
-            rigidbody.velocity = new Vector3(Mathf.Clamp(rigidbody.velocity.x, -speedLimit, speedLimit), 0, 0);
+        // clamp max distance
+        if ((transform.position.x < -distanceLimit && rigidbody.velocity.x < 0) || (transform.position.x > distanceLimit && rigidbody.velocity.x > 0)) {
+            rigidbody.velocity = -2 * rigidbody.velocity;
         }
     }
     #endregion
