@@ -7,15 +7,21 @@ public class UIManager : MonoBehaviour {
 
     public Text     distanceCounter;
     public Slider   stressBar;
+    public Image    fade;
+
+    private float   fadeSpeed = 2f;
+    private float   fadeTarget;
     #endregion
 
     #region Monobehaviour Methods
     void Awake () {
         Instance = this;
+        fade.color = new Color(1,1,1,1);
+        fadeTarget = 0;
     }
 
     void Update () {
-    
+        FadeScreen();
     }
     #endregion
 
@@ -26,6 +32,15 @@ public class UIManager : MonoBehaviour {
 
     public void SetStress(float value) {
         stressBar.value = value;
+    }
+
+    public void SetFadeTarget(float target) {
+        fadeTarget = target;
+    }
+
+    private void FadeScreen() {
+        Debug.Log(fade.color.a);
+        fade.color = new Color(fade.color.r, fade.color.g, fade.color.b, fade.color.a + (fadeTarget - fade.color.a) * Time.deltaTime * fadeSpeed);
     }
     #endregion
 }
