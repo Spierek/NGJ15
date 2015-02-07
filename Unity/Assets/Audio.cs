@@ -4,7 +4,7 @@ using System.Collections;
 public class Audio : MonoBehaviour {
 
 	static Audio m_Instance;
-	static Audio Instance {get{ 
+	public static Audio Instance {get{ 
 			if(m_Instance == null)
 			{
 				m_Instance = GameObject.Find("Audio").GetComponent<Audio>();
@@ -13,6 +13,7 @@ public class Audio : MonoBehaviour {
 		}}
 
 	public AudioSource Bump;
+	public AudioSource BumpGlass;
 	public AudioSource Driving;
 	public AudioSource HumanHit1;
 	public AudioSource HumanHit2;
@@ -37,7 +38,7 @@ public class Audio : MonoBehaviour {
 	public AudioSource TakeItEasy;
 
 
-	void PlayWomanSayingShutup()
+	public void PlayWomanSayingShutup()
 	{
 		switch(Random.Range(1,3))
 		{
@@ -53,12 +54,12 @@ public class Audio : MonoBehaviour {
         }
     }
 
-    void PlayWomanFinalScream()
+	public void PlayWomanFinalScream()
     {
         Scream4.Play ();
     }
     
-    void PlayWomanScreaming()
+	public void PlayWomanScreaming()
     {
         switch(Random.Range(1,3))
         {
@@ -74,7 +75,7 @@ public class Audio : MonoBehaviour {
         }
     }
 
-    void PlayManSayingCalmDown()
+	public void PlayManSayingCalmDown()
 	{
 		switch(Random.Range(1,3))
 		{
@@ -90,11 +91,11 @@ public class Audio : MonoBehaviour {
         }
     }
     
-    void PlayWomanBreathing()
+	public void PlayWomanBreathing()
     {
 		HeavyBreathing.Play();
 	}
-	void PlayManSayingBreathe()
+	public void PlayManSayingBreathe()
 	{
 		switch(Random.Range(1,2))
 		{
@@ -107,32 +108,37 @@ public class Audio : MonoBehaviour {
         }
     }
 
-    void PlayBabyLong()
+	public void PlayBabyLong()
 	{
 		Baby1.Play();
     }
 	
-	void PlayBabyShort()
+	public void PlayBabyShort()
 	{
 		BabyShort.Play();
-    }
-    
-    void PlayBump()
+	}
+	
+	public void PlayBump()
 	{
 		Bump.Play();
 	}
 	
-	void PlayDriving()
+	public void PlayBumpGlass()
+	{
+		BumpGlass.Play();
+	}
+	
+	public void PlayDriving()
 	{
 		Driving.Play();
 	}
 
-	void PlayTires()
+	public void PlayTires()
 	{
 		Tires.Play();
 	}
 
-	void PlayHumanHit()
+	public void PlayHumanHit()
 	{
 		switch(Random.Range(1,3))
 		{

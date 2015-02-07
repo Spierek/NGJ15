@@ -33,6 +33,7 @@ public class CarScript : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody>();
         cameraBox = transform.Find("Camera Box");
         timeLeft = timeLimit;
+		Audio.Instance.PlayDriving();
     }
 
     void Update () {
@@ -61,7 +62,9 @@ public class CarScript : MonoBehaviour {
         if ((transform.position.x < -horizontalLimit && rigidbody.velocity.x < 0) || (transform.position.x > horizontalLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -1.5f * rigidbody.velocity;
             TakeDamage(wallStress);
-            ShakeCamera(0.1f, 3f);
+			ShakeCamera(0.1f, 3f);
+			Audio.Instance.PlayBump();
+			Audio.Instance.PlayBumpGlass();
         }
     }
 
