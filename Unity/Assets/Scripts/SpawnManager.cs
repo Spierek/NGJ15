@@ -17,17 +17,17 @@ public class SpawnManager : MonoBehaviour {
         string ObjectName = "Spawner" + UnityEngine.Random.Range(1, 3).ToString();
         Debug.Log(ObjectName);
         Transform childT = t.FindChild(ObjectName);
-        GameObject obs = Instantiate(instance.obstacles[UnityEngine.Random.Range(0, instance.obstacles.Length)], childT.position, Quaternion.identity) as GameObject;
+        GameObject obs = Instantiate(instance.obstacles[Random.Range(0, instance.obstacles.Length)], childT.position, Quaternion.identity) as GameObject;
         obs.transform.parent = t;
     }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Use this for initialization
+    void Start () {
+    
+    }
+    
+    // Update is called once per frame
+    void Update () {
+    
+    }
 }

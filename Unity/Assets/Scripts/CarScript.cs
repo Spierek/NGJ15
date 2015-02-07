@@ -40,7 +40,7 @@ public class CarScript : MonoBehaviour {
         // bounce off of walls (distance clamping)
         if ((transform.position.x < -distanceLimit && rigidbody.velocity.x < 0) || (transform.position.x > distanceLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -1.5f * rigidbody.velocity;
-            ShakeCamera(0.1f, 2f);
+            ShakeCamera(0.1f, 3f);
         }
     }
 
