@@ -45,6 +45,22 @@ public class UIManager : MonoBehaviour {
         fadeTarget = target;
     }
 
+    public void FlashWhite() {
+        SetFadeTarget(1);
+        fadeSpeed = 50f;
+        Invoke("BackFromFlash", 0.1f);
+    }
+
+    private void BackFromFlash() {
+        fadeSpeed = 20f;
+        SetFadeTarget(0);
+        Invoke("BackFromFlashRe", 0.2f);
+    }
+
+    private void BackFromFlashRe() {
+        fadeSpeed = 2f;
+    }
+
     private void BeatingHeart() {
         heartValue = Mathf.Sin(Time.time * heartSpeed / 5);
         heartValue = Remap(heartValue, -1, 1, heartScale.x, heartScale.y);

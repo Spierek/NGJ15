@@ -221,7 +221,8 @@ public class CarScript : MonoBehaviour {
 
     private void ShootBaby() {
         GameObject baby = Instantiate(babyPrefab, brackets.position, babyPrefab.transform.rotation) as GameObject;
-        baby.GetComponent<Rigidbody>().AddForce((Random.insideUnitSphere * 0.2f - baby.transform.forward) * 1000f, ForceMode.Impulse);
+        baby.GetComponent<Rigidbody>().AddForce((Camera.main.transform.up + 0.4f * Random.insideUnitSphere.normalized) * 100f, ForceMode.Impulse);
+        UIManager.Instance.FlashWhite();
     }
 
 private void NextLevel()
