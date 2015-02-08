@@ -24,12 +24,12 @@ public class PederestianSidewalk : Obstacle
 
     public override void SpawnMe(Transform parent)
     {
-        base.SpawnMe(parent);
         int spawnerFrm = UnityEngine.Random.Range(1, 3);
         string ObjectName = "SpawnerSide"+spawnerFrm;
         Transform childT = parent.FindChild(ObjectName);
         this.GetComponent<SpriteRenderer>().sprite = SpawnManager.instance.pederestiansSprites[UnityEngine.Random.Range(0, SpawnManager.instance.pederestiansSprites.Length)];
         this.transform.position = childT.position;
+        base.SpawnMe(parent);
     }
     public override void KillMe()
     {

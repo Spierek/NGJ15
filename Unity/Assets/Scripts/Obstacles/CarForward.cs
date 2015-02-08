@@ -26,10 +26,10 @@ public class CarForward : Obstacle {
 
     public override void SpawnMe(Transform parent)
     {
-        base.SpawnMe(parent);
         string ObjectName = "Spawner1";
         Transform childT = parent.FindChild(ObjectName);
         this.transform.position = childT.position;
+        base.SpawnMe(parent);
        // GameObject obs = Instantiate(instance.obstacles[Random.Range(0, instance.obstacles.Length)], childT.position, Quaternion.identity) as GameObject;
        // obs.transform.parent = t;
     }
