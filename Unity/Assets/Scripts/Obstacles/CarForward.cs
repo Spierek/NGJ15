@@ -37,6 +37,6 @@ public class CarForward : Obstacle {
     public override void KillMe()
     {
         base.KillMe();
-        Audio.Instance.PlayBumpGlass();
+        Audio.Instance.PlayBump();
     }
 }
