@@ -124,12 +124,13 @@ public class CarScript : MonoBehaviour {
     }
 
 	private void CalmDown(float calming) {
-		if (Input.GetKey (KeyCode.A)) {
+		if (Input.GetKeyDown (KeyCode.Space)) {
 			stress -= calming;
 			UIManager.Instance.SetStress(stress);
+			Audio.Instance.PlayWomanScreaming();
 		}
-
-		// game over
+		
+		// stress shouldn't be allowed to be negative
 		if (stress <= 0) {
 			stress = 0;
 		}
