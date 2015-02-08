@@ -6,8 +6,13 @@ public class UIManager : MonoBehaviour {
     public static UIManager Instance;
 
     public Text     distanceCounter;
-    public Slider   stressBar;
+    public Image    heart;
     public Image    fade;
+
+    private float   heartSpeed;
+    private float   heartValue;
+    private Vector2 heartScale = new Vector2(0.8f, 1.1f);
+    public Color    heartTargetColor;
 
     private float   fadeSpeed = 2f;
     private float   fadeTarget;
@@ -22,6 +27,7 @@ public class UIManager : MonoBehaviour {
 
     void Update () {
         FadeScreen();
+        BeatingHeart();
     }
     #endregion
 
@@ -31,16 +37,27 @@ public class UIManager : MonoBehaviour {
     }
 
     public void SetStress(float value) {
-        stressBar.value = value;
+        heartSpeed = value;
+        heart.color = Color.Lerp(Color.white, heartTargetColor, value / 100);
     }
 
     public void SetFadeTarget(float target) {
         fadeTarget = target;
     }
 
+    private void BeatingHeart() {
+        heartValue = Mathf.Sin(Time.time * heartSpeed / 5);
+        heartValue = Remap(heartValue, -1, 1, heartScale.x, heartScale.y);
+        heart.rectTransform.localScale = new Vector3(heartValue, heartValue, 1);
+    }
+
     private void FadeScreen() {
         Debug.Log(fade.color.a);
         fade.color = new Color(fade.color.r, fade.color.g, fade.color.b, fade.color.a + (fadeTarget - fade.color.a) * Time.deltaTime * fadeSpeed);
+    }
+
+    private float Remap (float value, float from1, float to1, float from2, float to2) {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
     #endregion
 }
