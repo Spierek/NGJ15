@@ -4,6 +4,8 @@ public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
     public Transform        lady;
+    public GameObject       babyPrefab;
+    public Transform        brackets;
     private Animator        ladyAnimator;
     private Vector3         carLastPosition;
 
@@ -59,6 +61,10 @@ public class CarScript : MonoBehaviour {
         LadyNoises();
 
         TakeDamage(Time.deltaTime * 1.5f);
+
+        if (Input.GetKeyDown(KeyCode.Y)) {
+            ShootBaby();
+        }
     }
 
     void FixedUpdate() {
@@ -134,6 +140,9 @@ public class CarScript : MonoBehaviour {
         if (stress >= maxStress) {
             stress = 100;
             MainDebug.WriteLine("GAME OVER", 5f);
+            if (stress > 2) {
+                ShootBaby();
+            }
         }
 
         // animation switch
@@ -204,6 +213,11 @@ public class CarScript : MonoBehaviour {
             timeLeft = 0;
             MainDebug.WriteLine("YOU WIN");
         }
+    }
+
+    private void ShootBaby() {
+        GameObject baby = Instantiate(babyPrefab, brackets.position, babyPrefab.transform.rotation) as GameObject;
+        baby.GetComponent<Rigidbody>().AddForce((Random.insideUnitSphere * 0.2f - baby.transform.forward) * 1000f, ForceMode.Impulse);
     }
 
     // from http://answers.unity3d.com/questions/141775/limit-local-rotation.html
