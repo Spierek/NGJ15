@@ -5,6 +5,7 @@ public class Obstacle : MonoBehaviour {
 
     public float deathTimer;
     public float startHeight;
+    public float damage;
     protected bool isKill;
 	// Use this for initialization
 	void Start () {

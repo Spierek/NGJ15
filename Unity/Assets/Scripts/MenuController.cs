@@ -2,6 +2,7 @@
 
 public class MenuController : MonoBehaviour {
     private Animator animator;
+    private bool isInstructions;
 
     private void Awake() {
         animator = GetComponent<Animator>();
@@ -9,8 +10,14 @@ public class MenuController : MonoBehaviour {
     
     void Update () {
         if(Input.GetKeyDown(KeyCode.Space)) {
-            animator.SetTrigger("FadeOut");
-            Invoke("ChangeLevel", 0.5f);
+            if (!isInstructions) {
+                animator.SetTrigger("ShowInstructions");
+                isInstructions = true;
+            }
+            else {
+                animator.SetTrigger("FadeOut");
+                Invoke("ChangeLevel", 0.5f);
+            }
         }
     }
 

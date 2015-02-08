@@ -42,9 +42,9 @@ public class CarScript : MonoBehaviour {
     void Awake () {
         rigidbody = GetComponent<Rigidbody>();
         cameraBox = transform.Find("Camera Box");
-		timeLeft = timeLimit;
-		Audio.Instance.PlayDriving();
-		Audio.Instance.PlayBackground();
+        timeLeft = timeLimit;
+        Audio.Instance.PlayDriving();
+        Audio.Instance.PlayBackground();
 
         ladyAnimator = lady.GetComponent<Animator>();
         carLastPosition = transform.localPosition;
@@ -58,7 +58,7 @@ public class CarScript : MonoBehaviour {
 
         LadyNoises();
 
-        stress += Time.deltaTime * 0.2f;
+        TakeDamage(Time.deltaTime * 1.5f);
     }
 
     void FixedUpdate() {
@@ -67,7 +67,8 @@ public class CarScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider col) {
         col.GetComponent<Obstacle>().KillMe();
-        TakeDamage(carStress);
+        TakeDamage(col.GetComponent<Obstacle>().damage);
+        Audio.Instance.Background.pitch = 1f + (stress / 1000f);
         ShakeCamera(0.3f, 5f);
     }
     #endregion
@@ -95,7 +96,7 @@ public class CarScript : MonoBehaviour {
 
         // sidewalk stuff
         if ((transform.position.x < -6.5f) || (transform.position.x > 6.5f)) {
-            TakeDamage(Time.deltaTime * 0.2f);
+            TakeDamage(Time.deltaTime * 3f);
             ShakeCamera(0.1f, 0.5f);
         }
     }
@@ -125,7 +126,7 @@ public class CarScript : MonoBehaviour {
         }
     }
 
-    private void TakeDamage(float damage) {
+    public void TakeDamage(float damage) {
         stress += damage;
         UIManager.Instance.SetStress(stress);
 
@@ -168,8 +169,11 @@ public class CarScript : MonoBehaviour {
             if (!Audio.Instance.IsSayingBreathe() )
                 Audio.Instance.PlayManSayingBreathe();
 
-            if (shootTimer < shootCooldown && !Audio.Instance.IsSayingShutUp()) {
-                Invoke("ShutTheFuckUp", 0.2f);
+            if (shootTimer < shootCooldown) {
+                if (!Audio.Instance.IsSayingShutUp()) {
+                    Invoke("ShutTheFuckUp", 0.2f);
+                }
+                TakeDamage(3f);
                 shootTimer = 0;
                 return;                         // You can not calm her down yet
             }
@@ -190,7 +194,6 @@ public class CarScript : MonoBehaviour {
     private void ShutTheFuckUp() {
         Audio.Instance.StopScreamingBreathing();
         Audio.Instance.PlayWomanSayingShutup();
-        TakeDamage(3f);
     }
 
     private void UpdateDistance() {
