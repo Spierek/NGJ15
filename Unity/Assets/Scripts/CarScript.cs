@@ -58,7 +58,7 @@ public class CarScript : MonoBehaviour {
 
         LadyNoises();
 
-        stress += Time.deltaTime / 3;
+        stress += Time.deltaTime * 0.2f;
     }
 
     void FixedUpdate() {
@@ -92,6 +92,12 @@ public class CarScript : MonoBehaviour {
         lady.localPosition = new Vector3(Mathf.Clamp(lady.localPosition.x, -3f, 3f), lady.localPosition.y, lady.localPosition.z);
 
         carLastPosition = transform.localPosition;
+
+        // sidewalk stuff
+        if ((transform.position.x < -6.5f) || (transform.position.x > 6.5f)) {
+            TakeDamage(Time.deltaTime * 0.2f);
+            ShakeCamera(0.1f, 0.5f);
+        }
     }
 
     private void RotateWheel() {
@@ -155,7 +161,6 @@ public class CarScript : MonoBehaviour {
     }
 
     private void CalmDown(float calming) {
-
         //add so that you can't spam the button, and make the woman irritated when you calm her too often
         shootTimer += Time.deltaTime;       // Keep track of passing time
 

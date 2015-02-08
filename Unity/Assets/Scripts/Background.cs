@@ -12,7 +12,7 @@ public class Background : MonoBehaviour {
 
     void Awake() {
         if (roadPrefabs.Count > 0) {
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 8; i++) {
                 Debug.Log(Random.Range(0, roadPrefabs.Count));
                 sections.Add(Instantiate(roadPrefabs[Random.Range(0, roadPrefabs.Count)]) as GameObject);
                 sections[i].transform.localPosition = new Vector3(0f, 0f, sectionLength * i);
@@ -35,7 +35,7 @@ public class Background : MonoBehaviour {
                 newS.transform.parent = s.transform.parent;
                 newS.transform.localPosition += new Vector3(0f, 0f, sectionLength * sections.Count);
                // 
-                if (UnityEngine.Random.Range(0, 100) >= 30)
+                if (UnityEngine.Random.Range(0, 100) >= 10)
                 {
                     SpawnManager.SpawnObstacle(newS.transform);
                 }
