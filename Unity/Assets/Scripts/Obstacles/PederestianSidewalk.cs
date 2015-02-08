@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CarBack : Obstacle
+public class PederestianSidewalk : Obstacle
 {
 
     public float speed;
-
     // Use this for initialization
     void Start()
     {
@@ -16,11 +15,7 @@ public class CarBack : Obstacle
     void Update()
     {
         base.Update();
-        if (!isKill)
-        {
-            this.transform.position -= Vector3.forward * speed;
-        }
-        else
+        if (isKill)        
         {
             this.transform.Rotate(Vector3.forward, 10f);
             this.transform.position += new Vector3(0.1f, 0.25f, 0.75f);
@@ -29,17 +24,14 @@ public class CarBack : Obstacle
 
     public override void SpawnMe(Transform parent)
     {
-        string ObjectName = "Spawner2";
+        int spawnerFrm = UnityEngine.Random.Range(1, 3);
+        string ObjectName = "SpawnerSide"+spawnerFrm;
         Transform childT = parent.FindChild(ObjectName);
         this.transform.position = childT.position;
-        this.transform.position += new Vector3(0f, 3f, 0f);
-        // GameObject obs = Instantiate(instance.obstacles[Random.Range(0, instance.obstacles.Length)], childT.position, Quaternion.identity) as GameObject;
-        // obs.transform.parent = t;
     }
-
     public override void KillMe()
     {
         base.KillMe();
-        Audio.Instance.PlayBump();
+        Audio.Instance.PlayHumanHit();
     }
 }

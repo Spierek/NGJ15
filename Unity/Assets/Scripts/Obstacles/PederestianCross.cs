@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CarBack : Obstacle
+public class PederestianCross : Obstacle
 {
 
     public float speed;
-
+    public bool goingLeft;
     // Use this for initialization
     void Start()
     {
@@ -18,7 +18,7 @@ public class CarBack : Obstacle
         base.Update();
         if (!isKill)
         {
-            this.transform.position -= Vector3.forward * speed;
+            this.transform.position += (goingLeft ? Vector3.left : Vector3.right) * speed;
         }
         else
         {
@@ -29,17 +29,16 @@ public class CarBack : Obstacle
 
     public override void SpawnMe(Transform parent)
     {
-        string ObjectName = "Spawner2";
+        int spawnerFrm = UnityEngine.Random.Range(1, 3);
+        if (spawnerFrm == 2) goingLeft = true;
+        else goingLeft = false;
+        string ObjectName = "SpawnerSide"+spawnerFrm;
         Transform childT = parent.FindChild(ObjectName);
         this.transform.position = childT.position;
-        this.transform.position += new Vector3(0f, 3f, 0f);
-        // GameObject obs = Instantiate(instance.obstacles[Random.Range(0, instance.obstacles.Length)], childT.position, Quaternion.identity) as GameObject;
-        // obs.transform.parent = t;
     }
-
     public override void KillMe()
     {
         base.KillMe();
-        Audio.Instance.PlayBump();
+        Audio.Instance.PlayHumanHit();
     }
 }

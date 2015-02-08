@@ -4,7 +4,7 @@ using System.Collections;
 public class Obstacle : MonoBehaviour {
 
     public float deathTimer;
-      
+    protected bool isKill;
 	// Use this for initialization
 	void Start () {
 	
@@ -18,5 +18,10 @@ public class Obstacle : MonoBehaviour {
 
     public virtual void SpawnMe(Transform parent){
 
+    }
+
+    public virtual void KillMe()
+    {
+        isKill = true;
     }
 }
