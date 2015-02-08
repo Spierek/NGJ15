@@ -68,6 +68,7 @@ public class CarScript : MonoBehaviour {
     private void OnTriggerEnter(Collider col) {
         col.GetComponent<Obstacle>().KillMe();
         TakeDamage(col.GetComponent<Obstacle>().damage);
+        Audio.Instance.Background.pitch = 1f + (stress / 1000f);
         ShakeCamera(0.3f, 5f);
     }
     #endregion
