@@ -24,3 +24,6 @@ Unity/UnityVS.Unity.v12.suo
 *.csproj
 *.unityproj
 *.sln
+Unity/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll.meta
+Unity/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Messaging.dll.meta
+Unity/Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll.meta
