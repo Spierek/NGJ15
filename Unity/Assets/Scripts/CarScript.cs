@@ -23,9 +23,13 @@ public class CarScript : MonoBehaviour {
     private float stress;
     private float maxStress = 100f;
 
-	private float calm = 5f;
-	private float shootCooldown = 2f;    // Wait time between shots
-	private float shootTimer = 0f;  
+    private float calm = 5f;
+    private float shootCooldown = 2f;    // Wait time between shots
+    private float shootTimer;
+
+    private float initialScreamDelay = 4f;
+    private float screamDelay;
+    private float screamTimer;
 
     private float shakePower;
     private float shakeDuration;
@@ -49,7 +53,9 @@ public class CarScript : MonoBehaviour {
         RotateWheel();
         CameraShaking();
         UpdateDistance();
-		CalmDown (calm);
+        CalmDown (calm);
+
+        LadyNoises();
     }
 
     void FixedUpdate() {
@@ -126,33 +132,45 @@ public class CarScript : MonoBehaviour {
         }
     }
 
-	private void CalmDown(float calming) {
+    private void LadyNoises() {
+        screamTimer += Time.deltaTime;
 
-		//add so that you can't spam the button, and make the woman irritated when you calm her too often
-		shootTimer += Time.deltaTime;       // Keep track of passing time
+        screamDelay = initialScreamDelay * (1.5f - stress / maxStress);
+        if (screamTimer > screamDelay) {
+            screamTimer = 0;
+            Audio.Instance.PlayWomanScreaming();
+            Audio.Instance.HeavyBreathing.Stop();
+        }
+        else if (!Audio.Instance.HeavyBreathing.isPlaying && Audio.Instance.IsNotScreaming()) {
+            Audio.Instance.PlayWomanBreathing();
+        }
+    }
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			if (shootTimer < shootCooldown) {
-				Audio.Instance.PlayManSayingBreathe();
-				Audio.Instance.PlayWomanSayingShutup();
-				return;                         // You can not calm her down yet
-			}
+    private void CalmDown(float calming) {
 
-			if (shootTimer > shootCooldown) {
-				shootTimer = 0;
-				stress -= calming;
-				UIManager.Instance.SetStress(stress);
-				Audio.Instance.PlayManSayingBreathe();
-			}
+        //add so that you can't spam the button, and make the woman irritated when you calm her too often
+        shootTimer += Time.deltaTime;       // Keep track of passing time
 
+        if (Input.GetKeyDown (KeyCode.Space)) {
+            if (shootTimer < shootCooldown) {
+                Audio.Instance.PlayManSayingBreathe();
+                Audio.Instance.PlayWomanSayingShutup();
+                return;                         // You can not calm her down yet
+            }
 
-		}
+            if (shootTimer > shootCooldown) {
+                shootTimer = 0;
+                stress -= calming;
+                UIManager.Instance.SetStress(stress);
+                Audio.Instance.PlayManSayingBreathe();
+            }
+        }
 
-		// stress shouldn't be allowed to be negative
-		if (stress <= 0) {
-			stress = 0;
-		}
-	}
+        // stress shouldn't be allowed to be negative
+        if (stress <= 0) {
+            stress = 0;
+        }
+    }
 
     private void UpdateDistance() {
         timeLeft -= Time.deltaTime;

@@ -95,7 +95,12 @@ public class Audio : MonoBehaviour {
     {
 		HeavyBreathing.Play();
 	}
-	public void PlayManSayingBreathe()
+
+    public bool IsNotScreaming() {
+        return !Scream1.isPlaying && !Scream2.isPlaying && !Scream3.isPlaying;
+    }
+
+    public void PlayManSayingBreathe()
 	{
 		switch(Random.Range(1,2))
 		{
