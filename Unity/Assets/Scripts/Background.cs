@@ -25,15 +25,22 @@ public class Background : MonoBehaviour {
     }
   
     void Update () {
-        foreach (GameObject s in sections) {
+        for (int i = 0; i < sections.Count;i++)
+        {
+            GameObject s = sections[i];
             s.transform.localPosition -= transform.forward * speed * Time.deltaTime;
             if (s.transform.localPosition.z <= -sectionLength)
             {
-                s.transform.localPosition += new Vector3(0f, 0f, sectionLength * sections.Count);
-                if(UnityEngine.Random.Range(0,100)>=30)
+                GameObject newS = Instantiate(roadPrefabs[UnityEngine.Random.Range(0, roadPrefabs.Count)], s.transform.position, Quaternion.identity) as GameObject;
+                newS.transform.parent = s.transform.parent;
+                newS.transform.localPosition += new Vector3(0f, 0f, sectionLength * sections.Count);
+               // 
+                if (UnityEngine.Random.Range(0, 100) >= 30)
                 {
-                    SpawnManager.SpawnObstacle(s.transform);
+                    SpawnManager.SpawnObstacle(newS.transform);
                 }
+                Destroy(s.gameObject);
+                sections[i] = newS;
             }
         }
     }
