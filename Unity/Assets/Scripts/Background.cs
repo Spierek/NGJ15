@@ -12,8 +12,8 @@ public class Background : MonoBehaviour {
 
     void Awake() {
         if (roadPrefabs.Count > 0) {
-            for (int i = 0; i < 8; i++) {
-                Debug.Log(Random.Range(0, roadPrefabs.Count));
+            for (int i = 0; i < 14; i++) {
+              //  Debug.Log(Random.Range(0, roadPrefabs.Count));
                 sections.Add(Instantiate(roadPrefabs[Random.Range(0, roadPrefabs.Count)]) as GameObject);
                 sections[i].transform.localPosition = new Vector3(0f, 0f, sectionLength * i);
                 sections[i].transform.parent = transform;

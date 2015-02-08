@@ -66,7 +66,7 @@ public class CarScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider col) {
         col.GetComponent<Obstacle>().KillMe();
-        TakeDamage(carStress);
+        TakeDamage(col.GetComponent<Obstacle>().damage);
         ShakeCamera(0.3f, 5f);
     }
     #endregion
@@ -124,7 +124,7 @@ public class CarScript : MonoBehaviour {
         }
     }
 
-    private void TakeDamage(float damage) {
+    public void TakeDamage(float damage) {
         stress += damage;
         UIManager.Instance.SetStress(stress);
 
