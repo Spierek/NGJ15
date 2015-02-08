@@ -22,7 +22,10 @@ public class CarScript : MonoBehaviour {
 
     private float stress;
     private float maxStress = 100f;
-	private float calm = 2f;
+
+	private float calm = 5f;
+	private float shootCooldown = 2f;    // Wait time between shots
+	private float shootTimer = 0f;  
 
     private float shakePower;
     private float shakeDuration;
@@ -124,12 +127,27 @@ public class CarScript : MonoBehaviour {
     }
 
 	private void CalmDown(float calming) {
+
+		//add so that you can't spam the button, and make the woman irritated when you calm her too often
+		shootTimer += Time.deltaTime;       // Keep track of passing time
+
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			stress -= calming;
-			UIManager.Instance.SetStress(stress);
-			Audio.Instance.PlayWomanScreaming();
+			if (shootTimer < shootCooldown) {
+				Audio.Instance.PlayManSayingBreathe();
+				Audio.Instance.PlayWomanSayingShutup();
+				return;                         // You can not calm her down yet
+			}
+
+			if (shootTimer > shootCooldown) {
+				shootTimer = 0;
+				stress -= calming;
+				UIManager.Instance.SetStress(stress);
+				Audio.Instance.PlayManSayingBreathe();
+			}
+
+
 		}
-		
+
 		// stress shouldn't be allowed to be negative
 		if (stress <= 0) {
 			stress = 0;
