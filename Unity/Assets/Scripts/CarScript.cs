@@ -42,8 +42,9 @@ public class CarScript : MonoBehaviour {
     void Awake () {
         rigidbody = GetComponent<Rigidbody>();
         cameraBox = transform.Find("Camera Box");
-        timeLeft = timeLimit;
-        Audio.Instance.PlayDriving();
+		timeLeft = timeLimit;
+		Audio.Instance.PlayDriving();
+		Audio.Instance.PlayBackground();
 
         ladyAnimator = lady.GetComponent<Animator>();
         carLastPosition = transform.localPosition;

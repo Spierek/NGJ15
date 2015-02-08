@@ -34,9 +34,14 @@ public class Audio : MonoBehaviour {
     public AudioSource Scream4;
     public AudioSource Shutup1;
     public AudioSource Shutup2;
-    public AudioSource Shutup3;
-    public AudioSource TakeItEasy;
+	public AudioSource Shutup3;
+	public AudioSource TakeItEasy;
+	public AudioSource Background;
 
+	public void PlayBackground()
+	{
+		Background.Play();
+	}
 
     public void PlayWomanSayingShutup()
     {
@@ -55,7 +60,7 @@ public class Audio : MonoBehaviour {
     }
 
     public bool IsSayingShutUp() {
-        return Shutup1.isPlaying && Shutup2.isPlaying && Shutup3.isPlaying;
+        return Shutup1.isPlaying || Shutup2.isPlaying || Shutup3.isPlaying;
     }
 
     public void PlayWomanFinalScream()
