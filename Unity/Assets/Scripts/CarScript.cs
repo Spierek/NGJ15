@@ -202,8 +202,14 @@ public class CarScript : MonoBehaviour {
 
         if (timeLeft <= 0) {
             timeLeft = 0;
-            MainDebug.WriteLine("YOU WIN");
+            UIManager.Instance.SetFadeTarget(1f);
+            Invoke("NextLevel", 1f);
         }
+    }
+
+    private void NextLevel()
+    {
+        Application.LoadLevel(Application.loadedLevel + 1);
     }
 
     // from http://answers.unity3d.com/questions/141775/limit-local-rotation.html
