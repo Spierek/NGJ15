@@ -24,7 +24,7 @@ public class CarScript : MonoBehaviour {
     private float maxStress = 100f;
 
     private float calm = 5f;
-    private float shootCooldown = 2f;    // Wait time between shots
+    private float shootCooldown = 1f;    // Wait time between shots
     private float shootTimer;
 
     private float initialScreamDelay = 4f;
@@ -56,6 +56,8 @@ public class CarScript : MonoBehaviour {
         CalmDown (calm);
 
         LadyNoises();
+
+        stress += Time.deltaTime / 3;
     }
 
     void FixedUpdate() {
@@ -133,16 +135,21 @@ public class CarScript : MonoBehaviour {
     }
 
     private void LadyNoises() {
-        screamTimer += Time.deltaTime;
+        if (!Audio.Instance.IsSayingShutUp()) {
+            screamTimer += Time.deltaTime;
 
-        screamDelay = initialScreamDelay * (1.5f - stress / maxStress);
-        if (screamTimer > screamDelay) {
-            screamTimer = 0;
-            Audio.Instance.PlayWomanScreaming();
-            Audio.Instance.HeavyBreathing.Stop();
+            screamDelay = initialScreamDelay * (1.5f - stress / maxStress);
+            if (screamTimer > screamDelay) {
+                screamTimer = 0;
+                Audio.Instance.PlayWomanScreaming();
+                Audio.Instance.HeavyBreathing.Stop();
+            }
+            else if (!Audio.Instance.HeavyBreathing.isPlaying && Audio.Instance.IsNotScreaming()) {
+                Audio.Instance.PlayWomanBreathing();
+            }
         }
-        else if (!Audio.Instance.HeavyBreathing.isPlaying && Audio.Instance.IsNotScreaming()) {
-            Audio.Instance.PlayWomanBreathing();
+        else {
+            Audio.Instance.StopScreamingBreathing();
         }
     }
 
@@ -152,9 +159,12 @@ public class CarScript : MonoBehaviour {
         shootTimer += Time.deltaTime;       // Keep track of passing time
 
         if (Input.GetKeyDown (KeyCode.Space)) {
-            if (shootTimer < shootCooldown) {
+            if (!Audio.Instance.IsSayingBreathe() )
                 Audio.Instance.PlayManSayingBreathe();
-                Audio.Instance.PlayWomanSayingShutup();
+
+            if (shootTimer < shootCooldown && !Audio.Instance.IsSayingShutUp()) {
+                Invoke("ShutTheFuckUp", 0.2f);
+                shootTimer = 0;
                 return;                         // You can not calm her down yet
             }
 
@@ -162,7 +172,6 @@ public class CarScript : MonoBehaviour {
                 shootTimer = 0;
                 stress -= calming;
                 UIManager.Instance.SetStress(stress);
-                Audio.Instance.PlayManSayingBreathe();
             }
         }
 
@@ -170,6 +179,12 @@ public class CarScript : MonoBehaviour {
         if (stress <= 0) {
             stress = 0;
         }
+    }
+
+    private void ShutTheFuckUp() {
+        Audio.Instance.StopScreamingBreathing();
+        Audio.Instance.PlayWomanSayingShutup();
+        TakeDamage(3f);
     }
 
     private void UpdateDistance() {
