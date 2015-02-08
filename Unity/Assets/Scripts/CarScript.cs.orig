@@ -216,14 +216,15 @@ public class CarScript : MonoBehaviour {
         }
     }
 
+<<<<<<< HEAD
     private void ShootBaby() {
         GameObject baby = Instantiate(babyPrefab, brackets.position, babyPrefab.transform.rotation) as GameObject;
         baby.GetComponent<Rigidbody>().AddForce((Random.insideUnitSphere * 0.2f - baby.transform.forward) * 1000f, ForceMode.Impulse);
-    }
-
-private void NextLevel()
+=======
+    private void NextLevel()
     {
         Application.LoadLevel(Application.loadedLevel + 1);
+>>>>>>> 0deab2fb19926ba441bdea42842cccc3ca0f2358
     }
 
     // from http://answers.unity3d.com/questions/141775/limit-local-rotation.html

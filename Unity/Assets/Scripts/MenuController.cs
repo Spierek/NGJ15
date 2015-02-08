@@ -3,6 +3,7 @@
 public class MenuController : MonoBehaviour {
     private Animator animator;
     private bool isInstructions;
+	public AudioSource intro;
 
     private void Awake() {
         animator = GetComponent<Animator>();
@@ -12,6 +13,7 @@ public class MenuController : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Space)) {
             if (!isInstructions) {
                 animator.SetTrigger("ShowInstructions");
+				intro.Play();
                 isInstructions = true;
             }
             else {
