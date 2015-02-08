@@ -36,6 +36,8 @@ public class CarScript : MonoBehaviour {
     private float shakePower;
     private float shakeDuration;
 
+    private bool isBabyDelivered;
+
     private new Rigidbody   rigidbody;
     private Transform       cameraBox;
     #endregion
@@ -139,9 +141,10 @@ public class CarScript : MonoBehaviour {
         // game over
         if (stress >= maxStress) {
             stress = 100;
-            MainDebug.WriteLine("GAME OVER", 5f);
-            if (stress > 2) {
+            if (!isBabyDelivered) {
                 ShootBaby();
+                isBabyDelivered = true;
+                MainDebug.WriteLine("GAME OVER", 5f);
             }
         }
 
