@@ -22,6 +22,7 @@ public class CarScript : MonoBehaviour {
 
     private float stress;
     private float maxStress = 100f;
+	private float calm = 2f;
 
     private float shakePower;
     private float shakeDuration;
@@ -45,6 +46,7 @@ public class CarScript : MonoBehaviour {
         RotateWheel();
         CameraShaking();
         UpdateDistance();
+		CalmDown (calm);
     }
 
     void FixedUpdate() {
@@ -119,6 +121,18 @@ public class CarScript : MonoBehaviour {
             ladyAnimator.SetTrigger("HighStress");
         }
     }
+
+	private void CalmDown(float calming) {
+		if (Input.GetKey (KeyCode.A)) {
+			stress -= calming;
+			UIManager.Instance.SetStress(stress);
+		}
+
+		// game over
+		if (stress <= 0) {
+			stress = 0;
+		}
+	}
 
     private void UpdateDistance() {
         timeLeft -= Time.deltaTime;
