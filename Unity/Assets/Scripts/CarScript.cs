@@ -148,6 +148,9 @@ public class CarScript : MonoBehaviour {
                 Audio.Instance.PlayWomanBreathing();
             }
         }
+        else {
+            Audio.Instance.StopScreamingBreathing();
+        }
     }
 
     private void CalmDown(float calming) {
