@@ -12,7 +12,7 @@ public class Background : MonoBehaviour {
 
     void Awake() {
         if (roadPrefabs.Count > 0) {
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 8; i++) {
                 Debug.Log(Random.Range(0, roadPrefabs.Count));
                 sections.Add(Instantiate(roadPrefabs[Random.Range(0, roadPrefabs.Count)]) as GameObject);
                 sections[i].transform.localPosition = new Vector3(0f, 0f, sectionLength * i);
