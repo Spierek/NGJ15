@@ -27,6 +27,7 @@ public class Audio : MonoBehaviour {
 	public AudioSource HeavyBreathing;
 	public AudioSource CalmDown;
 	public AudioSource CalmDown2;
+	public AudioSource Background;
 	
 	public AudioSource Scream1;
 	public AudioSource Scream2;
@@ -36,7 +37,6 @@ public class Audio : MonoBehaviour {
 	public AudioSource Shutup2;
 	public AudioSource Shutup3;
 	public AudioSource TakeItEasy;
-
 
 	public void PlayWomanSayingShutup()
 	{
@@ -95,12 +95,7 @@ public class Audio : MonoBehaviour {
     {
 		HeavyBreathing.Play();
 	}
-
-    public bool IsNotScreaming() {
-        return !Scream1.isPlaying && !Scream2.isPlaying && !Scream3.isPlaying;
-    }
-
-    public void PlayManSayingBreathe()
+	public void PlayManSayingBreathe()
 	{
 		switch(Random.Range(1,2))
 		{
@@ -132,7 +127,12 @@ public class Audio : MonoBehaviour {
 	{
 		BumpGlass.Play();
 	}
-	
+
+	public void PlayBackground()
+	{
+		Background.Play();
+	}
+
 	public void PlayDriving()
 	{
 		Driving.Play();
