@@ -60,7 +60,7 @@ public class Audio : MonoBehaviour {
     }
 
     public bool IsSayingShutUp() {
-        return Shutup1.isPlaying && Shutup2.isPlaying && Shutup3.isPlaying;
+        return Shutup1.isPlaying || Shutup2.isPlaying || Shutup3.isPlaying;
     }
 
     public void PlayWomanFinalScream()
