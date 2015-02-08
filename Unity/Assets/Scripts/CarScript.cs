@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class CarScript : MonoBehaviour {
     #region Variables
     public Transform        wheel;
-    public Animator         ladyAnimator;
+    public Transform        lady;
+    private Animator        ladyAnimator;
+    private Vector3         carLastPosition;
 
     public float distance = 600f;
     public float timeLimit = 90f;
@@ -17,6 +18,7 @@ public class CarScript : MonoBehaviour {
     [Range(0, 10)] public float carStress = 10f;
     [Range(0, 10)] public float pedestrianStress = 5f;
     [Range(0, 10)] public float wallStress = 2f;
+    [Range(0, 10)] public float tumbleStress = 0.5f;
 
     private float stress;
     private float maxStress = 100f;
@@ -33,7 +35,10 @@ public class CarScript : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody>();
         cameraBox = transform.Find("Camera Box");
         timeLeft = timeLimit;
-		Audio.Instance.PlayDriving();
+        Audio.Instance.PlayDriving();
+
+        ladyAnimator = lady.GetComponent<Animator>();
+        carLastPosition = transform.localPosition;
     }
 
     void Update () {
@@ -56,16 +61,22 @@ public class CarScript : MonoBehaviour {
     private void Movement() {
         // get input and add force
         Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), 0);
-        rigidbody.AddForce(movementVector * 1, ForceMode.Impulse);
+        rigidbody.AddForce(movementVector * 1000, ForceMode.Impulse);
 
         // bounce off of walls (distance clamping)
         if ((transform.position.x < -horizontalLimit && rigidbody.velocity.x < 0) || (transform.position.x > horizontalLimit && rigidbody.velocity.x > 0)) {
             rigidbody.velocity = -1.5f * rigidbody.velocity;
             TakeDamage(wallStress);
-			ShakeCamera(0.1f, 3f);
-			Audio.Instance.PlayBump();
-			Audio.Instance.PlayBumpGlass();
+            ShakeCamera(0.1f, 3f);
+            Audio.Instance.PlayBump();
+            Audio.Instance.PlayBumpGlass();
         }
+
+        // lady position fix (pseudo-friction)
+        lady.localPosition += (carLastPosition - transform.localPosition) * 0.1f;
+        lady.localPosition = new Vector3(Mathf.Clamp(lady.localPosition.x, -3f, 3f), lady.localPosition.y, lady.localPosition.z);
+
+        carLastPosition = transform.localPosition;
     }
 
     private void RotateWheel() {
