@@ -26,6 +26,7 @@ public class CarForward : Obstacle {
 
     public override void SpawnMe(Transform parent)
     {
+        base.SpawnMe(parent);
         string ObjectName = "Spawner1";
         Transform childT = parent.FindChild(ObjectName);
         this.transform.position = childT.position;

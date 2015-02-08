@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CarBack : Obstacle
 {
-
     public float speed;
 
     // Use this for initialization
@@ -29,10 +28,11 @@ public class CarBack : Obstacle
 
     public override void SpawnMe(Transform parent)
     {
+        base.SpawnMe(parent);
         string ObjectName = "Spawner2";
         Transform childT = parent.FindChild(ObjectName);
         this.transform.position = childT.position;
-        this.transform.position += new Vector3(0f, 3f, 0f);
+       
         // GameObject obs = Instantiate(instance.obstacles[Random.Range(0, instance.obstacles.Length)], childT.position, Quaternion.identity) as GameObject;
         // obs.transform.parent = t;
     }

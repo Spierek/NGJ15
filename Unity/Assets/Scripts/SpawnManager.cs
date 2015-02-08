@@ -11,6 +11,8 @@ public class SpawnManager : MonoBehaviour {
     [Range(0,10)]
     public int[] spawnRate;
 
+    public Sprite[] pederestiansSprites;
+
     void Awake()
     {
         instance = this;

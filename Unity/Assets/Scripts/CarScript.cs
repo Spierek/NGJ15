@@ -54,6 +54,7 @@ public class CarScript : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider col) {
+        col.GetComponent<Obstacle>().KillMe();
         TakeDamage(carStress);
         ShakeCamera(0.3f, 5f);
     }

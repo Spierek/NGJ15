@@ -29,6 +29,7 @@ public class PederestianCross : Obstacle
 
     public override void SpawnMe(Transform parent)
     {
+        base.SpawnMe(parent);
         int spawnerFrm = UnityEngine.Random.Range(1, 3);
         if (spawnerFrm == 2) goingLeft = true;
         else goingLeft = false;
